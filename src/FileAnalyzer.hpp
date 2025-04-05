@@ -12,6 +12,10 @@ class FileAnalyzer
 {
 public:
     bool analyze_file(const std::string& file_name, const std::string& analytics_report_file_name);
+    bool parallel_analyze_file(const std::string& file_name, const std::string& analytics_report_file_name);
+
+private:
+    void analyze_chunk(std::ifstream& stream, std::size_t end);
 
 private:
     using percentile_indices = std::tuple<double, std::size_t, std::size_t>;

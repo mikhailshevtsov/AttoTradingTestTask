@@ -40,11 +40,12 @@ The combined complexity of sorting and merging results in O(N log M + N log (N /
 
 ### Algorithm Selection
 
-The FileAnalyzer class computes key statistical metrics, including mean, standard deviation, and percentiles. The Welford's algorithm was selected to calculate mean and standard deviation in parallel that is well-suited for large dataset. Other than speed this algorithm also provides numerical stability.
+The FileAnalyzer class computes key statistical metrics, including mean, standard deviation, and percentiles. Its implementation employs a parallelized version of Welford’s algorithm, because of its efficiency, numerical stability and suitability for large datasets. This method allows for computing mean and standard deviation incrementally in a single pass, avoiding the need to load all values into memory. Percentile values are computed separately using a second pass with index-based interpolation between adjacent data points.
 
 ### Optimization Techniques
 
-To optimize performance, the mean and standard deviation are calculated in one pass using Welford's algorithm, reducing the need for multiple scans. Percentiles are determined in a second pass by computing precise index positions and interpolating values between adjacent data points. The implementation also employs stream-based file processing to handle large dataset without loading it into memory.
+The analysis is divided into two stages. In the first stage, the file is split into equal-sized chunks, and each chunk is processed by a separate thread. Each thread scans its part of the file and computes local statistics using Welford’s algorithm. Once all threads complete, their partial results are merged into a global result using a numerically stable formula. Percentiles are determined in the second stage by computing precise index positions and interpolating values between adjacent data points. The implementation also employs stream-based file processing to handle large dataset without loading it into memory.
+
 
 ### Time and Space Complexity
 

@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 
     std::cout << "Started analyzing a file" << std::endl;
 
-    bool result = file_analyzer.analyze_file(argv[1], argv[2]);
+    bool result = file_analyzer.parallel_analyze_file(argv[1], argv[2]);
 
     if (result)
         std::cout << "File was successfully analyzed. Analytics report was saved at location " << argv[2] << std::endl;
